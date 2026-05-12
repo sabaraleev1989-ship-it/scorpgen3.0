@@ -16,7 +16,6 @@
       overflow-x: hidden;
     }
 
-    /* ----- ЗАСТАВКА (SPLASH) ----- */
     .splash-screen {
       position: fixed;
       top: 0;
@@ -87,7 +86,6 @@
       box-shadow: 0 25px 45px black, 0 0 55px #f90;
     }
 
-    /* ----- ОСНОВНОЙ ИНТЕРФЕЙС ----- */
     .main-app {
       min-height: 100vh;
       padding: 1.2rem;
@@ -98,7 +96,7 @@
       align-items: center;
     }
     .app-container {
-      max-width: 900px;
+      max-width: 950px;
       width: 100%;
       background: rgba(16, 22, 9, 0.9);
       backdrop-filter: blur(20px);
@@ -273,6 +271,7 @@
       border-radius: 1.7rem;
       padding: 1.4rem;
       border: 1px solid;
+      position: relative;
     }
     .team-alpha {
       border-color: #cb9e40;
@@ -321,7 +320,6 @@
   </style>
 </head>
 <body>
-  <!-- ЗАСТАВКА -->
   <div class="splash-screen" id="splashScreen">
     <div class="scorpion-art">🦂</div>
     <div class="splash-title">ScorpGEN 3.0</div>
@@ -329,22 +327,21 @@
     <button class="start-btn" id="startBtn">НАЧАТЬ</button>
   </div>
 
-  <!-- ОСНОВНОЙ БЛОК (изначально скрыт) -->
   <div class="main-app" id="mainApp" style="display: none;">
     <div class="app-container">
       <div class="app-header">
         <span class="logo-small">🦂</span>
         <h1>ScorpGEN 3.0</h1>
       </div>
-      <div class="subtitle">бесконечные сценарии • страйкбол</div>
+      <div class="subtitle">бесконечные пересекающиеся сценарии</div>
 
       <div class="control-panel">
         <div class="badge-row">
-          <label class="task-badge"><input type="checkbox" id="taskCapture" checked> Захват</label>
-          <label class="task-badge"><input type="checkbox" id="taskElimination" checked> Ликвидация</label>
-          <label class="task-badge"><input type="checkbox" id="taskIntel" checked> Разведданные</label>
-          <label class="task-badge"><input type="checkbox" id="taskEscort" checked> Эскорт</label>
-          <label class="task-badge"><input type="checkbox" id="taskDemolition" checked> Саботаж</label>
+          <label class="task-badge"><input type="checkbox" id="taskCapture" checked> Захват / Оборона</label>
+          <label class="task-badge"><input type="checkbox" id="taskElimination" checked> Ликвидация / Охрана</label>
+          <label class="task-badge"><input type="checkbox" id="taskIntel" checked> Данные / Контрразведка</label>
+          <label class="task-badge"><input type="checkbox" id="taskEscort" checked> Эскорт / Перехват</label>
+          <label class="task-badge"><input type="checkbox" id="taskDemolition" checked> Подрыв / Разминирование</label>
         </div>
 
         <div class="rule-selector">
@@ -362,7 +359,6 @@
 
   <script>
     (function() {
-      // ----- ЗАСТАВКА -----
       const splashScreen = document.getElementById('splashScreen');
       const mainApp = document.getElementById('mainApp');
       const startBtn = document.getElementById('startBtn');
@@ -370,18 +366,18 @@
       startBtn.addEventListener('click', () => {
         splashScreen.classList.add('hidden');
         mainApp.style.display = 'flex';
-        // Генерируем первый сценарий после открытия
         generateScenario();
       });
 
-      // ---------- БАЗЫ ДАННЫХ (РАСШИРЕННЫЕ) ----------
+      // ---------- БАЗЫ ПЕРЕМЕННЫХ (РАСШИРЕННЫЕ) ----------
       const locations = [
         "Заброшенный завод «Сталь-9»", "Лесной полигон «Туман»", "Горный перевал «Орлиное гнездо»",
-        "Поселок «Северный» (руины)", "Бункер 42-бис", "Нефтебаза «Черное золото»",
+        "Посёлок «Северный» (руины)", "Бункер 42-бис", "Нефтебаза «Черное золото»",
         "Ж/д станция «Узловая»", "Портовая зона «Док-7»", "Пустынный форт «Мирамар»",
         "Подземный тоннель «Крот»", "Затопленный ангар", "Химический завод «Вихрь»",
         "Лесопилка «Глухомань»", "Складской комплекс «Терминал»", "Радиовышка «Эхо»",
-        "Монастырь «Святой Луч»", "Брошенный госпиталь", "Карьер «Гранит»"
+        "Монастырь «Святой Луч»", "Брошенный госпиталь", "Карьер «Гранит»",
+        "Оружейный завод «Молот»", "Дамба «Бетон-12»", "Убежище «Нора»"
       ];
 
       const atmospheres = [
@@ -392,66 +388,76 @@
         "сильная гроза, вспышки молний", "полнолуние, холодный ветер"
       ];
 
-      const sideNamesA = ["Альфа", "Волкодавы", "Группа «Шторм»", "Отряд «Корсар»", "Сектор 7", "Ястребы", "Кобра"];
-      const sideNamesB = ["Браво", "Теневики", "Картель «Черный»", "Ополчение «Восток»", "Наёмники «Гадюка»", "Фантом", "Коготь"];
+      const sideNamesA = ["Альфа", "Волкодавы", "Группа «Шторм»", "Отряд «Корсар»", "Сектор 7", "Ястребы", "Кобра", "Мангусты"];
+      const sideNamesB = ["Браво", "Теневики", "Картель «Черный»", "Ополчение «Восток»", "Наёмники «Гадюка»", "Фантом", "Коготь", "Шершни"];
 
-      // РАСШИРЕННЫЕ ЛЕГЕНДЫ (больше деталей)
-      const legendsPool = [
-        "Местные жители передали тревожные разведданные: в заброшенном районе замечены вооружённые диверсанты, предположительно устанавливающие взрывные устройства. Командование приказало немедленно выдвинуться и предотвратить катастрофу. Связь нестабильна, действовать придётся автономно.",
-        "После крушения беспилотника с секретным модулем связи обе стороны стремятся первыми добраться до обломков. Модуль содержит криптографические ключи, способные переломить ход конфликта. Местность патрулируется малыми группами.",
-        "Гуманитарный конвой ООН был атакован неизвестными. Груз (медикаменты и вода) разбросан по дороге. Необходимо установить контроль над зоной, найти выживших и не допустить мародёрства. В районе могут находиться враждебные элементы.",
-        "Лесные пожары подступают к старой радиовышке. Одна сторона планирует использовать её для передачи дезинформации, другая — взорвать, чтобы лишить врага ретранслятора. Огонь ограничивает манёвр.",
-        "Двойной агент сообщил о готовящемся покушении на высокопоставленного офицера во время инспекции передовой. Офицер следует в сопровождении минимальной охраны. Время и место известны лишь приблизительно.",
-        "Запасы питьевой воды истощены. Единственный функционирующий источник — колодец в нейтральной деревне. Контроль над ним означает выживание всего подразделения. Местные старейшины требуют защиты.",
-        "В подземном бункере активирован аварийный протокол: система самоуничтожения запущена из-за утечки химикатов. Одна группа хочет остановить реактор, другая — взорвать бункер вместе с вражеским арсеналом внутри.",
-        "Радиоперехват засёк вражеского генерала, инспектирующего секретный склад. Уничтожение или захват генерала может деморализовать противника. Склад хорошо охраняется, есть системы сигнализации.",
-        "Древний артефакт (контейнер с биометрическими данными) обнаружен в подвалах монастыря. Обе стороны стремятся завладеть им для дальнейших переговоров. Монастырь частично разрушен, много узких проходов.",
-        "Колонна техники с боеприпасами застряла в грязи после ливня. Противник знает о её местонахождении. Необходимо либо эвакуировать груз, либо уничтожить его, чтобы не достался врагу. Время играет против всех.",
-        "Вертолёт эвакуации совершил вынужденную посадку в зоне боевых действий. Пилот ранен, но жив. Одна сторона пытается спасти экипаж, другая — захватить пилота для допроса. Зона высадки простреливается.",
-        "Система ПВО старого образца неожиданно активировалась и угрожает любым воздушным целям. Отключение или захват установки изменит баланс сил в регионе. Установка находится на крыше депо."
+      // БАЗОВЫЕ ЭЛЕМЕНТЫ ДЛЯ БЕСКОНЕЧНЫХ ЛЕГЕНД
+      const legendIntros = [
+        "Разведка только что сообщила:", "Перехвачена вражеская радиограмма:", "Местный информатор передал:",
+        "Спутниковые снимки зафиксировали:", "Беженец рассказал:", "Захваченный пленный признался:",
+        "Датчики движения засекли:", "Дрон-разведчик обнаружил:"
+      ];
+      const legendSubjects = [
+        "диверсионная группа", "вражеский спецназ", "колонна техники", "секретный груз",
+        "командный пункт", "конвой с боеприпасами", "полевой госпиталь", "склад ГСМ",
+        "передвижная РЛС", "узел связи", "замаскированный бункер", "снайперская позиция"
+      ];
+      const legendActions = [
+        "готовится к штурму", "минирует подходы", "эвакуирует ценный груз", "разворачивает ПВО",
+        "ждёт подкрепления", "закладывает взрывчатку", "передаёт шифрованные данные", "охраняет пленного офицера",
+        "ремонтирует повреждённую технику", "проводит перегруппировку", "устанавливает растяжки"
+      ];
+      const legendUrgency = [
+        "Время играет против нас.", "Медлить нельзя — операция должна начаться немедленно.",
+        "Командование требует решительных действий.", "Каждая минута на счету.",
+        "Приказ: действовать по обстановке.", "Инициатива на нашей стороне.",
+        "Противник не должен уйти.", "Удержать позиции любой ценой."
       ];
 
-      // БОЕВЫЕ ЗАДАЧИ — расширенные и разнообразные
-      const taskTypes = {
+      // ЗЕРКАЛЬНЫЕ ПАРЫ ЗАДАЧ (ключ: [атакующая, обороняющаяся])
+      const conflictPairs = {
         capture: [
-          "Захватить и удерживать контрольную точку «Альфа» не менее 7 минут, отражая атаки.",
-          "Занять здание администрации и забаррикадироваться. Продержаться до прибытия подкрепления.",
-          "Контролировать стратегический мост. Не допустить минирования и переправы противника.",
-          "Овладеть высотой 217, установить флаг и подать сигнал ракетницей.",
-          "Захватить водонапорную башню и удерживать позицию, имея ограниченный боезапас."
+          ["Захватить контрольную точку «Альфа» и удерживать 7 минут", "Оборонять контрольную точку «Альфа» и не допустить захвата"],
+          ["Занять здание штаба и забаррикадироваться", "Выбить противника из здания штаба"],
+          ["Захватить мост и блокировать переправу", "Отбить мост и открыть путь для подкреплений"],
+          ["Овладеть водонапорной башней", "Не дать противнику занять водонапорную башню"],
+          ["Захватить высоту 217 и установить флаг", "Удержать высоту 217 и не допустить установки флага"]
         ],
         elimination: [
-          "Ликвидировать командира вражеского отряда (игрок с красной повязкой на плече).",
-          "Уничтожить всех бойцов противника в обозначенном квадрате B3 за 15 минут.",
-          "Нейтрализовать вражеского снайпера, засевшего в лесополосе у оврага.",
-          "Провести зачистку трёх зданий от диверсионной группы противника.",
-          "Убрать пулемётный расчёт на втором этаже ангара."
+          ["Ликвидировать вражеского командира (красная повязка)", "Защитить своего командира любой ценой"],
+          ["Уничтожить вражеский пулемётный расчёт", "Оборонять пулемётную позицию до подхода основных сил"],
+          ["Нейтрализовать снайпера в лесополосе", "Прикрывать снайпера, пока он меняет позицию"],
+          ["Зачистить три здания от противника", "Удержать три здания и не дать противнику войти"],
+          ["Ликвидировать диверсионную группу в тылу", "Провести диверсию в тылу врага и уйти без потерь"]
         ],
         intel: [
-          "Найти и изъять запечатанный кейс с документами (спрятан в одном из пяти тайников).",
-          "Сфотографировать три замаскированных контейнера и вернуться на базу без потерь.",
-          "Перехватить вражеского курьера (игрок с жёлтым рюкзаком) и забрать флеш-накопитель.",
-          "Взломать терминал в подвале бункера (удерживать точку 3 минуты) и скачать данные.",
-          "Обследовать заброшенный госпиталь и найти карту минных полей."
+          ["Найти и изъять кейс с документами (спрятан в тайнике)", "Защитить тайник с документами, не дать изъять"],
+          ["Взломать терминал и скачать данные (удерживать 3 мин)", "Оборонять терминал, не допустить взлома"],
+          ["Перехватить курьера и забрать флеш-накопитель", "Провести курьера через опасную зону"],
+          ["Сфотографировать замаскированные контейнеры", "Помешать фотографированию контейнеров"],
+          ["Обследовать госпиталь и найти карту минных полей", "Спрятать или уничтожить карту минных полей"]
         ],
         escort: [
-          "Провести VIP-персону (игрок в синем жилете) из точки А в точку Б через опасный сектор.",
-          "Защитить передвижной генератор помех в течение 10 минут, пока он активен.",
-          "Эвакуировать раненого пилота (манекен на носилках) к зоне эвакуации, избегая засад.",
-          "Сопроводить грузовик с боеприпасами через лесную дорогу, где возможны атаки.",
-          "Обеспечить безопасность сапёра, обезвреживающего взрывное устройство на мосту."
+          ["Провести VIP-персону из точки А в точку Б", "Перехватить и задержать VIP-персону"],
+          ["Защитить генератор помех в течение 10 минут", "Уничтожить генератор помех"],
+          ["Эвакуировать раненого пилота к зоне эвакуации", "Не дать эвакуировать пилота, взять в плен"],
+          ["Сопроводить грузовик с боеприпасами через лес", "Остановить и захватить грузовик с боеприпасами"],
+          ["Охранять сапёра, обезвреживающего бомбу", "Помешать сапёру обезвредить бомбу"]
         ],
         demolition: [
-          "Заложить взрывчатку (имитация) на вражеском складе ГСМ и отойти на безопасное расстояние.",
-          "Уничтожить спутниковую тарелку связи, используя подрывные заряды.",
-          "Заминировать участок дороги и организовать засаду на ожидаемый конвой.",
-          "Вывести из строя трансформаторную подстанцию, питающую бункер противника.",
-          "Подорвать опору ЛЭП, чтобы обесточить вражеский командный пункт."
+          ["Заложить взрывчатку на складе ГСМ", "Разминировать склад ГСМ и обезвредить заряды"],
+          ["Уничтожить спутниковую тарелку связи", "Защитить спутниковую тарелку от подрыва"],
+          ["Заминировать дорогу и устроить засаду", "Разминировать дорогу и безопасно провести конвой"],
+          ["Вывести из строя трансформаторную подстанцию", "Восстановить питание подстанции и отбить атаку"],
+          ["Подорвать опору ЛЭП для обесточивания врага", "Предотвратить подрыв опоры ЛЭП"]
         ]
       };
 
       let currentRule = 'hardcore';
       let lastScenarioSignature = null;
+      // Храним историю использованных легенд и задач, чтобы не повторяться
+      let usedLegends = new Set();
+      let usedTaskPairs = new Set();
 
       const ruleButtons = document.querySelectorAll('.rule-btn');
       const generateBtn = document.getElementById('generateBtn');
@@ -475,20 +481,55 @@
         return active;
       }
 
-      function buildSignature(teamAObj, teamBObj, rule, location, legend) {
-        return `${location}|${legend}|${teamAObj.task}|${teamBObj.task}|${rule}`;
+      function generateUniqueLegend() {
+        if (usedLegends.size >= 5000) usedLegends.clear();
+
+        let legend = '';
+        let attempts = 0;
+        const maxAttempts = 100;
+
+        while (attempts < maxAttempts) {
+          const intro = getRandomElement(legendIntros);
+          const subject = getRandomElement(legendSubjects);
+          const action = getRandomElement(legendActions);
+          const locationHint = getRandomElement(locations);
+          const urgency = getRandomElement(legendUrgency);
+          const atmosphere = getRandomElement(atmospheres);
+
+          legend = `${intro} ${subject} ${action} в районе ${locationHint}. ${urgency} Погодные условия: ${atmosphere}.`;
+
+          if (!usedLegends.has(legend)) {
+            usedLegends.add(legend);
+            return legend;
+          }
+          attempts++;
+        }
+        // fallback
+        const fallback = `Экстренное сообщение: активность противника в зоне ${getRandomElement(locations)}. ${getRandomElement(legendUrgency)}`;
+        usedLegends.add(fallback);
+        return fallback;
       }
 
-      function getRandomTaskByKey(taskKey) {
-        const pool = taskTypes[taskKey];
-        return pool ? getRandomElement(pool) : "Нейтрализовать противника.";
-      }
-
-      function selectDistinctTasks(activeKeys) {
-        if (activeKeys.length === 0) return ['capture', 'elimination'];
-        if (activeKeys.length === 1) return [activeKeys[0], activeKeys[0]];
-        const shuffled = shuffleArray([...activeKeys]);
-        return [shuffled[0], shuffled[1]];
+      function getConflictPair(taskKey) {
+        const pairs = conflictPairs[taskKey];
+        if (!pairs || pairs.length === 0) {
+          return ["Атаковать противника", "Обороняться от атаки"];
+        }
+        const pair = getRandomElement(pairs);
+        // Формируем уникальный ключ пары для избежания повторов
+        const pairKey = `${taskKey}:${pair[0]}|${pair[1]}`;
+        if (usedTaskPairs.size > 300) usedTaskPairs.clear();
+        if (usedTaskPairs.has(pairKey) && pairs.length > 1) {
+          for (let p of shuffleArray([...pairs])) {
+            const altKey = `${taskKey}:${p[0]}|${p[1]}`;
+            if (!usedTaskPairs.has(altKey)) {
+              usedTaskPairs.add(altKey);
+              return p;
+            }
+          }
+        }
+        usedTaskPairs.add(pairKey);
+        return pair;
       }
 
       function generateScenario() {
@@ -498,54 +539,37 @@
           return;
         }
 
-        let attempts = 0;
-        const maxAttempts = 25;
-        let newScenario = null;
-        let signature = null;
+        const selectedKey = getRandomElement(activeKeys);
+        const [taskAttacker, taskDefender] = getConflictPair(selectedKey);
+        const location = getRandomElement(locations);
+        const atmosphere = getRandomElement(atmospheres);
+        const legendText = generateUniqueLegend();
+        const nameA = getRandomElement(sideNamesA);
+        let nameB = getRandomElement(sideNamesB);
+        while (nameB === nameA) nameB = getRandomElement(sideNamesB);
 
-        while (attempts < maxAttempts) {
-          const location = getRandomElement(locations);
-          const atmosphere = getRandomElement(atmospheres);
-          const legendText = getRandomElement(legendsPool);
-          const nameA = getRandomElement(sideNamesA);
-          let nameB = getRandomElement(sideNamesB);
-          while (nameB === nameA) nameB = getRandomElement(sideNamesB);
+        // Случайно определяем, какая сторона атакует, а какая защищается
+        const coin = Math.random() < 0.5;
+        const teamA = {
+          name: nameA,
+          task: coin ? taskAttacker : taskDefender,
+          role: coin ? 'АТАКА' : 'ОБОРОНА'
+        };
+        const teamB = {
+          name: nameB,
+          task: coin ? taskDefender : taskAttacker,
+          role: coin ? 'ОБОРОНА' : 'АТАКА'
+        };
 
-          const [taskKeyA, taskKeyB] = selectDistinctTasks(activeKeys);
-          let taskTextA = getRandomTaskByKey(taskKeyA);
-          let taskTextB = getRandomTaskByKey(taskKeyB);
-
-          if (taskKeyA === taskKeyB) {
-            const pool = taskTypes[taskKeyA];
-            if (pool && pool.length > 1) {
-              let alt = getRandomElement(pool);
-              let inner = 0;
-              while (alt === taskTextA && inner < 12) { alt = getRandomElement(pool); inner++; }
-              taskTextB = alt;
-            }
-          }
-
-          signature = buildSignature({ task: taskTextA }, { task: taskTextB }, currentRule, location, legendText);
-          if (signature !== lastScenarioSignature) {
-            newScenario = { location, atmosphere, legendText, teamA: { name: nameA, task: taskTextA }, teamB: { name: nameB, task: taskTextB }, rule: currentRule };
-            break;
-          }
-          attempts++;
-        }
-
-        if (!newScenario) {
-          const location = getRandomElement(locations);
-          const atmosphere = getRandomElement(atmospheres);
-          const legendText = getRandomElement(legendsPool);
-          const nameA = getRandomElement(sideNamesA);
-          let nameB = getRandomElement(sideNamesB);
-          while (nameB === nameA) nameB = getRandomElement(sideNamesB);
-          const [tkA, tkB] = selectDistinctTasks(activeKeys.length ? activeKeys : ['capture','elimination']);
-          newScenario = { location, atmosphere, legendText, teamA: { name: nameA, task: getRandomTaskByKey(tkA) }, teamB: { name: nameB, task: getRandomTaskByKey(tkB) }, rule: currentRule };
-          signature = buildSignature(newScenario.teamA, newScenario.teamB, currentRule, location, legendText);
-        }
-
-        lastScenarioSignature = signature;
+        const newScenario = {
+          location,
+          atmosphere,
+          legendText,
+          teamA,
+          teamB,
+          rule: currentRule
+        };
+        lastScenarioSignature = `${legendText}|${teamA.task}|${teamB.task}`;
         renderScenario(newScenario);
       }
 
@@ -569,12 +593,12 @@
           </div>
           <div class="teams-container">
             <div class="team-block team-alpha">
-              <div class="team-name"><span>🔴 ${sc.teamA.name}</span></div>
+              <div class="team-name"><span>🔴 ${sc.teamA.name}</span> <span style="font-size:0.8rem; background:#3a2e0c; padding:0.2rem 0.8rem; border-radius:1rem;">${sc.teamA.role}</span></div>
               <div style="font-weight:700; color:#e7b550;">БОЕВАЯ ЗАДАЧА:</div>
               <div class="objective-text">🎯 ${sc.teamA.task}</div>
             </div>
             <div class="team-block team-bravo">
-              <div class="team-name"><span>🔵 ${sc.teamB.name}</span></div>
+              <div class="team-name"><span>🔵 ${sc.teamB.name}</span> <span style="font-size:0.8rem; background:#1e330e; padding:0.2rem 0.8rem; border-radius:1rem;">${sc.teamB.role}</span></div>
               <div style="font-weight:700; color:#b3d180;">БОЕВАЯ ЗАДАЧА:</div>
               <div class="objective-text">🎯 ${sc.teamB.task}</div>
             </div>
@@ -598,7 +622,10 @@
 
       generateBtn.addEventListener('click', generateScenario);
 
-      // Инициализация после заставки происходит по кнопке НАЧАТЬ
+      // При изменении чекбоксов сбрасываем историю повторов задач
+      document.querySelectorAll('.task-badge input').forEach(cb => {
+        cb.addEventListener('change', () => { usedTaskPairs.clear(); });
+      });
     })();
   </script>
 </body>
