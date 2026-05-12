@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=2.0">
-  <title>Генератор сценариев • Страйкбол</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=2.0, viewport-fit=cover">
+  <title>ScorpGEN 3.0 • Страйкбол Сценарии</title>
   <style>
     * {
       margin: 0;
@@ -11,55 +11,139 @@
       box-sizing: border-box;
     }
     body {
-      font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
-      background: #1a2e1f;
-      background-image: radial-gradient(circle at 20% 30%, #2d4a2c 5%, #0f1f12 95%);
+      font-family: 'Segoe UI', 'Roboto', system-ui, -apple-system, sans-serif;
+      background: #0a0f07;
+      overflow-x: hidden;
+    }
+
+    /* ----- ЗАСТАВКА (SPLASH) ----- */
+    .splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: radial-gradient(circle at 30% 40%, #2d210b, #040301);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      transition: opacity 0.5s ease, visibility 0.5s;
+    }
+    .splash-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .scorpion-art {
+      font-size: 10rem;
+      filter: drop-shadow(0 0 40px #d49b3b) drop-shadow(0 0 80px #b45f1a);
+      color: #ecb155;
+      margin-bottom: 1rem;
+      animation: floatScorp 3s infinite ease-in-out;
+      user-select: none;
+    }
+    @keyframes floatScorp {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+      100% { transform: translateY(0px); }
+    }
+    .splash-title {
+      font-size: 4rem;
+      font-weight: 800;
+      letter-spacing: 6px;
+      color: #e7bc5c;
+      text-shadow: 0 0 25px #b3741e, 0 8px 15px black;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+    }
+    .splash-sub {
+      color: #c7a86b;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      margin-bottom: 3rem;
+      border-bottom: 2px solid #b4943b;
+      padding-bottom: 0.5rem;
+    }
+    .start-btn {
+      background: #dba942;
+      border: none;
+      font-size: 1.8rem;
+      font-weight: bold;
+      padding: 1.3rem 3.5rem;
+      border-radius: 4rem;
+      letter-spacing: 3px;
+      color: #0e1c05;
+      cursor: pointer;
+      background: linear-gradient(180deg, #f3cd60 0%, #b57c1a 100%);
+      box-shadow: 0 20px 35px rgba(0,0,0,0.8), 0 0 30px #ffb732;
+      transition: 0.25s;
+      text-transform: uppercase;
+      border: 1px solid #fde49b;
+    }
+    .start-btn:hover {
+      transform: scale(1.06);
+      box-shadow: 0 25px 45px black, 0 0 55px #f90;
+    }
+
+    /* ----- ОСНОВНОЙ ИНТЕРФЕЙС ----- */
+    .main-app {
       min-height: 100vh;
+      padding: 1.2rem;
+      background: #141e0e;
+      background-image: linear-gradient(145deg, #1a2b13 0%, #0b1307 100%);
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 1.5rem;
-      margin: 0;
     }
     .app-container {
-      max-width: 850px;
+      max-width: 900px;
       width: 100%;
-      background: rgba(20, 28, 17, 0.9);
-      backdrop-filter: blur(16px);
-      border-radius: 2.5rem;
-      padding: 1.8rem 2rem 2.5rem;
-      box-shadow: 0 30px 50px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,200,0.2);
-      border: 1px solid #5b6e3b;
-      color: #e9e7d4;
+      background: rgba(16, 22, 9, 0.9);
+      backdrop-filter: blur(20px);
+      border-radius: 2.8rem;
+      padding: 1.8rem 2.2rem 2.8rem;
+      box-shadow: 0 35px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(210, 180, 90, 0.4);
+      border: 1px solid #6b8144;
+      color: #f0ebce;
       transition: all 0.2s;
     }
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+    .logo-small {
+      font-size: 2.8rem;
+      filter: drop-shadow(0 0 15px #cf9f2c);
+    }
     h1 {
-      text-align: center;
-      font-weight: 600;
-      font-size: 2.2rem;
-      letter-spacing: 3px;
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: #e6c468;
+      text-shadow: 0 5px 12px #1e2d0c;
       text-transform: uppercase;
-      color: #cfde9e;
-      text-shadow: 0 4px 10px #1f3118;
-      margin-bottom: 0.3rem;
-      word-break: break-word;
     }
     .subtitle {
       text-align: center;
-      color: #a6b87e;
+      color: #b9b272;
       margin-bottom: 2rem;
       font-style: italic;
-      border-bottom: 1px dashed #5b6e3b;
-      padding-bottom: 0.8rem;
-      font-size: 0.95rem;
+      border-bottom: 1px dashed #6c8042;
+      padding-bottom: 0.7rem;
+      font-weight: 500;
     }
     .control-panel {
-      background: #1e2a18;
-      border-radius: 2rem;
-      padding: 1.5rem 1.5rem 1.2rem;
+      background: #1b2614;
+      border-radius: 2.2rem;
+      padding: 1.6rem 1.6rem 1.3rem;
       margin-bottom: 2rem;
-      border: 1px solid #4a5e35;
-      box-shadow: inset 0 2px 7px rgba(0,0,0,0.5);
+      border: 1px solid #5a7340;
+      box-shadow: inset 0 3px 10px rgba(0,0,0,0.6);
     }
     .badge-row {
       display: flex;
@@ -70,32 +154,29 @@
       margin-bottom: 1.8rem;
     }
     .task-badge {
-      background: #2d3b1f;
-      border: 1px solid #7e9350;
-      padding: 0.6rem 1.2rem;
+      background: #28361c;
+      border: 1px solid #8ea15b;
+      padding: 0.65rem 1.3rem;
       border-radius: 3rem;
       font-weight: 600;
       font-size: 0.9rem;
-      color: #d9e6b2;
+      color: #e2e9bc;
       cursor: pointer;
       transition: 0.2s;
-      user-select: none;
       display: flex;
       align-items: center;
       gap: 0.4rem;
       letter-spacing: 0.5px;
     }
     .task-badge input[type="checkbox"] {
-      accent-color: #b9d34b;
-      width: 1rem;
-      height: 1rem;
-      margin-right: 0.2rem;
+      accent-color: #e6b422;
+      width: 1.1rem;
+      height: 1.1rem;
       cursor: pointer;
-      transform: scale(1.1);
     }
     .task-badge:hover {
-      background: #3f532b;
-      border-color: #b9d34b;
+      background: #41582c;
+      border-color: #dbb446;
     }
     .rule-selector {
       display: flex;
@@ -103,35 +184,35 @@
       align-items: center;
       justify-content: center;
       gap: 1rem;
-      margin: 1.3rem 0 1rem;
+      margin: 1.5rem 0 1.2rem;
     }
     .rule-btn {
-      background: #232e18;
-      border: 1px solid #5c6a3b;
-      color: #cdd8ae;
+      background: #1d2915;
+      border: 1px solid #687845;
+      color: #d4daaf;
       font-weight: 600;
-      padding: 0.7rem 1.5rem;
-      border-radius: 2rem;
+      padding: 0.75rem 1.7rem;
+      border-radius: 2.5rem;
       cursor: pointer;
       transition: all 0.25s;
       font-size: 0.9rem;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.7px;
     }
     .rule-btn.active {
-      background: #79903b;
-      border-color: #d0e586;
-      color: #0e1a06;
-      box-shadow: 0 0 15px #96b34b;
+      background: #8f9e3c;
+      border-color: #f5e37c;
+      color: #0f1a03;
       font-weight: bold;
+      box-shadow: 0 0 18px #c7b142;
     }
     .generate-btn {
-      background: #cbad5c;
+      background: #c9a13b;
       border: none;
-      color: #1e2c0e;
+      color: #122004;
       font-weight: 800;
-      font-size: 1.2rem;
-      padding: 0.9rem 2.2rem;
+      font-size: 1.3rem;
+      padding: 0.9rem 2.3rem;
       border-radius: 3rem;
       letter-spacing: 2px;
       text-transform: uppercase;
@@ -139,448 +220,386 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 1.5rem auto 0.3rem;
+      margin: 1.8rem auto 0.2rem;
       gap: 0.4rem;
-      background: linear-gradient(180deg, #e7c468 0%, #b3923b 100%);
-      border: 1px solid #fde482;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.5);
+      background: linear-gradient(180deg, #ecc356 0%, #a67c22 100%);
+      border: 1px solid #ffe48b;
+      box-shadow: 0 12px 22px rgba(0,0,0,0.6);
       transition: 0.2s;
       width: fit-content;
     }
     .generate-btn:hover {
-      filter: brightness(1.15);
-      transform: scale(1.02);
-      box-shadow: 0 10px 22px black;
+      filter: brightness(1.2);
+      transform: scale(1.03);
     }
     .scenario-card {
-      background: #1e2816;
+      background: #192312;
       border-radius: 2rem;
-      padding: 1.8rem;
-      border: 1px solid #7e9750;
-      box-shadow: 0 15px 25px rgba(0,0,0,0.6);
-      margin-top: 1.2rem;
+      padding: 1.9rem;
+      border: 1px solid #85994d;
+      box-shadow: 0 18px 30px rgba(0,0,0,0.7);
+      margin-top: 1.3rem;
     }
     .legend-box {
-      background: #0e140a;
-      border-left: 6px solid #b5943b;
-      padding: 1.3rem;
-      border-radius: 1rem;
-      margin-bottom: 1.7rem;
-      font-style: normal;
-      color: #e3d9b0;
-      box-shadow: inset 0 0 12px #000000;
+      background: #0e1607;
+      border-left: 7px solid #cc9f2c;
+      padding: 1.5rem;
+      border-radius: 1.3rem;
+      margin-bottom: 1.8rem;
+      color: #e6dbb0;
+      box-shadow: inset 0 0 18px #000000;
+      font-size: 1rem;
+      line-height: 1.6;
     }
     .legend-title {
-      font-weight: 700;
-      color: #f3cd70;
+      font-weight: 800;
+      color: #fad158;
       text-transform: uppercase;
       letter-spacing: 2px;
-      margin-bottom: 0.6rem;
-      font-size: 0.9rem;
+      margin-bottom: 0.8rem;
+      font-size: 1rem;
     }
     .teams-container {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1.3rem;
-      margin: 1.8rem 0 1rem;
+      gap: 1.4rem;
+      margin: 1.8rem 0 1.2rem;
     }
-    @media (max-width: 550px) {
-      .teams-container {
-        grid-template-columns: 1fr;
-      }
-      .app-container {
-        padding: 1.5rem 1.2rem;
-      }
+    @media (max-width: 580px) {
+      .teams-container { grid-template-columns: 1fr; }
+      .app-container { padding: 1.5rem 1.2rem; }
     }
     .team-block {
-      background: #222f19;
-      border-radius: 1.5rem;
-      padding: 1.2rem;
+      border-radius: 1.7rem;
+      padding: 1.4rem;
       border: 1px solid;
     }
     .team-alpha {
-      border-color: #b89b48;
-      background: linear-gradient(145deg, #2a351a, #1b2412);
+      border-color: #cb9e40;
+      background: linear-gradient(145deg, #2d391d, #192012);
     }
     .team-bravo {
-      border-color: #5b7a4a;
-      background: linear-gradient(145deg, #1f2d17, #121f0e);
+      border-color: #5a7d43;
+      background: linear-gradient(145deg, #1e2c15, #0f1a0a);
     }
     .team-name {
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       font-weight: 800;
       text-transform: uppercase;
       margin-bottom: 0.9rem;
       display: flex;
       align-items: center;
-      gap: 0.3rem;
+      gap: 0.4rem;
     }
     .objective-text {
-      background: #0b1307;
-      padding: 0.8rem;
-      border-radius: 0.9rem;
-      color: #dcdfb0;
+      background: #0b1105;
+      padding: 0.9rem;
+      border-radius: 1rem;
+      color: #e2e4bb;
       font-weight: 500;
       line-height: 1.5;
-      margin: 0.5rem 0;
-      font-size: 0.95rem;
+      font-size: 0.98rem;
     }
     .rules-highlight {
-      background: #2c3a1c;
-      border-radius: 1rem;
-      padding: 0.9rem;
-      margin: 1.2rem 0 0.5rem;
+      background: #273318;
+      border-radius: 1.2rem;
+      padding: 1rem;
+      margin: 1.5rem 0 0.6rem;
       font-weight: 600;
-      color: #f6e7a7;
+      color: #f9e599;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      border: 1px dashed #b9ad4c;
-      font-size: 0.95rem;
+      gap: 0.7rem;
+      border: 1px dashed #caaf41;
     }
     .unique-id {
       font-size: 0.7rem;
-      color: #5f6d4a;
+      color: #6f7d55;
       text-align: right;
       margin-top: 1rem;
-      letter-spacing: 1px;
-    }
-    hr {
-      border-color: #495f2d;
-      margin: 1rem 0 0.5rem;
     }
   </style>
 </head>
 <body>
-<div class="app-container">
-  <h1>⚡ SPECNAZ SCENARIO</h1>
-  <div class="subtitle">бесконечные миссии • страйкбол</div>
-
-  <div class="control-panel">
-    <div class="badge-row">
-      <label class="task-badge"><input type="checkbox" id="taskCapture" checked> Захват точки</label>
-      <label class="task-badge"><input type="checkbox" id="taskElimination" checked> Ликвидация</label>
-      <label class="task-badge"><input type="checkbox" id="taskIntel" checked> Разведданные</label>
-      <label class="task-badge"><input type="checkbox" id="taskEscort" checked> Эскорт / защита</label>
-      <label class="task-badge"><input type="checkbox" id="taskDemolition" checked> Подрыв / саботаж</label>
-    </div>
-
-    <div class="rule-selector">
-      <span style="color:#b9b382; margin-right:0.3rem; font-weight:600;">⚙️ Правила ранений:</span>
-      <button class="rule-btn active" data-rule="hardcore">ХАРДКОР: любое попадание = убит</button>
-      <button class="rule-btn" data-rule="realistic">РЕАЛИЗМ: голова/туловище убит, конечность ранен</button>
-    </div>
-
-    <button class="generate-btn" id="generateBtn">↻ СГЕНЕРИРОВАТЬ СЦЕНАРИЙ</button>
+  <!-- ЗАСТАВКА -->
+  <div class="splash-screen" id="splashScreen">
+    <div class="scorpion-art">🦂</div>
+    <div class="splash-title">ScorpGEN 3.0</div>
+    <div class="splash-sub">тактический генератор</div>
+    <button class="start-btn" id="startBtn">НАЧАТЬ</button>
   </div>
 
-  <div class="scenario-card" id="scenarioDisplay">
-    <!-- динамическое наполнение -->
+  <!-- ОСНОВНОЙ БЛОК (изначально скрыт) -->
+  <div class="main-app" id="mainApp" style="display: none;">
+    <div class="app-container">
+      <div class="app-header">
+        <span class="logo-small">🦂</span>
+        <h1>ScorpGEN 3.0</h1>
+      </div>
+      <div class="subtitle">бесконечные сценарии • страйкбол</div>
+
+      <div class="control-panel">
+        <div class="badge-row">
+          <label class="task-badge"><input type="checkbox" id="taskCapture" checked> Захват</label>
+          <label class="task-badge"><input type="checkbox" id="taskElimination" checked> Ликвидация</label>
+          <label class="task-badge"><input type="checkbox" id="taskIntel" checked> Разведданные</label>
+          <label class="task-badge"><input type="checkbox" id="taskEscort" checked> Эскорт</label>
+          <label class="task-badge"><input type="checkbox" id="taskDemolition" checked> Саботаж</label>
+        </div>
+
+        <div class="rule-selector">
+          <span style="color:#cdbc6a; margin-right:0.3rem; font-weight:600;">⚙️ Режим ранений:</span>
+          <button class="rule-btn active" data-rule="hardcore">ХАРДКОР</button>
+          <button class="rule-btn" data-rule="realistic">РЕАЛИЗМ</button>
+        </div>
+
+        <button class="generate-btn" id="generateBtn">↻ Сгенерировать</button>
+      </div>
+
+      <div class="scenario-card" id="scenarioDisplay"></div>
+    </div>
   </div>
-</div>
 
-<script>
-  (function() {
-    // ---------- БАЗЫ ДАННЫХ ДЛЯ БЕСКОНЕЧНЫХ КОМБИНАЦИЙ ----------
-    const locations = [
-      "Заброшенный завод «Сталь-9»", "Лесной полигон «Туман»", "Горный перевал «Орлиное гнездо»",
-      "Поселок «Северный» (руины)", "Бункер 42-бис", "Нефтебаза «Черное золото»",
-      "Ж/д станция «Узловая»", "Портовая зона «Док-7»", "Пустынный форт «Мирамар»",
-      "Подземный тоннель «Крот»", "Затопленный ангар", "Химический завод «Вихрь»",
-      "Лесопилка «Глухомань»", "Складской комплекс «Терминал»", "Радиовышка «Эхо»"
-    ];
+  <script>
+    (function() {
+      // ----- ЗАСТАВКА -----
+      const splashScreen = document.getElementById('splashScreen');
+      const mainApp = document.getElementById('mainApp');
+      const startBtn = document.getElementById('startBtn');
 
-    const atmospheres = [
-      "густой туман, видимость 20 метров", "проливной дождь и скользкая грязь",
-      "ранние сумерки, длинные тени", "пасмурное небо, ветер 10 м/с",
-      "солнечный полдень, жара +32°C", "ночная операция, только ПНВ",
-      "дым от лесного пожара поблизости", "снежные заносы, -5°C", "туман и запах гари"
-    ];
-
-    const sideNamesA = ["Альфа", "Волкодавы", "Группа «Шторм»", "Отряд «Корсар»", "Сектор 7", "Ястребы"];
-    const sideNamesB = ["Браво", "Теневики", "Картель «Черный»", "Ополчение «Восток»", "Наёмники «Гадюка»", "Фантом"];
-
-    const legendsPool = [
-      "Местные передали разведданные: в районе замечена активность вражеских диверсантов. Командование требует немедленных действий.",
-      "После падения спутника связи противник пытается захватить обломки с секретной технологией.",
-      "Гуманитарный конвой был атакован. Необходимо восстановить контроль и найти выживших.",
-      "Под прикрытием лесных пожаров враг минирует подходы к ключевому мосту.",
-      "Двойной агент сообщил о готовящемся покушении на командира союзников во время эвакуации.",
-      "Запасы воды истощены. Единственный источник находится на нейтральной территории, которую нужно удержать.",
-      "В бункере активирован аварийный протокол: системы самоуничтожения запущены. Нужно остановить или использовать.",
-      "Радиоперехват: вражеский генерал инспектирует передовую. Отличная возможность для удара.",
-      "Артефакт (контейнер с данными) обнаружен в заброшенной лаборатории. Обе стороны стремятся завладеть им."
-    ];
-
-    // Боевые задачи (пулы)
-    const taskTypes = {
-      capture: [
-        "Захватить и удерживать контрольную точку «Альфа» не менее 5 минут.",
-        "Занять здание штаба и не допустить проникновения противника.",
-        "Контролировать мост/переправу до прибытия подкрепления.",
-        "Захватить высоту 217 и установить флаг."
-      ],
-      elimination: [
-        "Уничтожить командира вражеского отряда (особая повязка).",
-        "Ликвидировать всех бойцов противника в заданном квадрате.",
-        "Нейтрализовать вражеского снайпера в лесополосе.",
-        "Устранить трёх designated marksman противника."
-      ],
-      intel: [
-        "Найти и изъять кейс с разведданными (3 возможных тайника).",
-        "Сфотографировать/считать QR-коды на объектах без поднятия тревоги.",
-        "Перехватить курьера и забрать флеш-накопитель.",
-        "Обследовать бункер и скопировать данные с терминала (удерживать 2 мин)."
-      ],
-      escort: [
-        "Провести VIP-персону (игрок с жёлтой повязкой) из точки А в точку Б.",
-        "Защитить генератор помех в течение 10 минут.",
-        "Эвакуировать раненого пилота (манекен/носилки) к зоне эвакуации.",
-        "Сопроводить грузовик с боеприпасами через опасный сектор."
-      ],
-      demolition: [
-        "Заложить взрывчатку на вражеском складе (имитация) и отойти.",
-        "Уничтожить спутниковую тарелку (подрыв/снятие элемента).",
-        "Заминировать дорогу и устроить засаду на конвой.",
-        "Вывести из строя генераторную подстанцию."
-      ]
-    };
-
-    // ---------- ГЛОБАЛЬНОЕ СОСТОЯНИЕ ----------
-    let currentRule = 'hardcore'; // 'hardcore' или 'realistic'
-    let lastScenarioSignature = null; // для предотвращения прямых повторов
-
-    // DOM элементы
-    const ruleButtons = document.querySelectorAll('.rule-btn');
-    const generateBtn = document.getElementById('generateBtn');
-    const scenarioDisplay = document.getElementById('scenarioDisplay');
-    // чекбоксы задач
-    const checkCapture = document.getElementById('taskCapture');
-    const checkElimination = document.getElementById('taskElimination');
-    const checkIntel = document.getElementById('taskIntel');
-    const checkEscort = document.getElementById('taskEscort');
-    const checkDemolition = document.getElementById('taskDemolition');
-
-    // ---------- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ----------
-    function getRandomElement(arr) {
-      return arr[Math.floor(Math.random() * arr.length)];
-    }
-
-    // Перемешивание массива (Фишер-Йетс)
-    function shuffleArray(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    }
-
-    // Собираем активные типы задач на основе чекбоксов
-    function getActiveTaskKeys() {
-      const active = [];
-      if (checkCapture.checked) active.push('capture');
-      if (checkElimination.checked) active.push('elimination');
-      if (checkIntel.checked) active.push('intel');
-      if (checkEscort.checked) active.push('escort');
-      if (checkDemolition.checked) active.push('demolition');
-      return active;
-    }
-
-    // Генерируем уникальную строку-подпись (для избежания повторов)
-    function buildSignature(teamAObj, teamBObj, rule, location, legend) {
-      return `${location}|${legend}|${teamAObj.task}|${teamBObj.task}|${rule}`;
-    }
-
-    // Получить задачу для стороны по ключу типа (случайный выбор из pool)
-    function getRandomTaskByKey(taskKey) {
-      const pool = taskTypes[taskKey];
-      if (!pool || pool.length === 0) return "Нейтрализовать противника.";
-      return getRandomElement(pool);
-    }
-
-    // Выбор двух разных задач для команд (из активных типов)
-    function selectDistinctTasks(activeKeys) {
-      if (activeKeys.length === 0) {
-        // fallback: если ничего не выбрано, используем захват и ликвидацию
-        return ['capture', 'elimination'];
-      }
-      if (activeKeys.length === 1) {
-        // дублируем одну задачу, но с разным текстом (разные формулировки из пула)
-        return [activeKeys[0], activeKeys[0]];
-      }
-      // выбираем два разных случайных ключа
-      const shuffled = shuffleArray([...activeKeys]);
-      return [shuffled[0], shuffled[1]];
-    }
-
-    // Генерация полного сценария
-    function generateScenario() {
-      const activeKeys = getActiveTaskKeys();
-      if (activeKeys.length === 0) {
-        scenarioDisplay.innerHTML = `<div style="color:#c78d5c; padding:1rem; text-align:center;">⚠️ Выберите хотя бы один тип боевой задачи (захват, ликвидация и т.д.)</div>`;
-        return;
-      }
-
-      // Попытки избежать повтора (макс 15 попыток)
-      let attempts = 0;
-      const maxAttempts = 20;
-      let newScenario = null;
-      let signature = null;
-
-      while (attempts < maxAttempts) {
-        // Выбираем локацию, легенду, атмосферу
-        const location = getRandomElement(locations);
-        const atmosphere = getRandomElement(atmospheres);
-        const legendText = getRandomElement(legendsPool);
-        
-        // Названия сторон
-        const nameA = getRandomElement(sideNamesA);
-        let nameB = getRandomElement(sideNamesB);
-        while (nameB === nameA) {
-          nameB = getRandomElement(sideNamesB);
-        }
-
-        // Выбираем две разные задачи (ключи) для команд
-        const [taskKeyA, taskKeyB] = selectDistinctTasks(activeKeys);
-        
-        // Получаем конкретные тексты задач
-        let taskTextA = getRandomTaskByKey(taskKeyA);
-        let taskTextB = getRandomTaskByKey(taskKeyB);
-        
-        // Если ключи одинаковые, стараемся сделать разные формулировки
-        if (taskKeyA === taskKeyB) {
-          // пробуем взять другую формулировку из того же пула
-          const pool = taskTypes[taskKeyA];
-          if (pool && pool.length > 1) {
-            let altTask = getRandomElement(pool);
-            let attemptsInner = 0;
-            while (altTask === taskTextA && attemptsInner < 10) {
-              altTask = getRandomElement(pool);
-              attemptsInner++;
-            }
-            taskTextB = altTask;
-          }
-        }
-
-        const rule = currentRule;
-        signature = buildSignature(
-          { task: taskTextA, key: taskKeyA },
-          { task: taskTextB, key: taskKeyB },
-          rule,
-          location,
-          legendText
-        );
-
-        if (signature !== lastScenarioSignature) {
-          newScenario = {
-            location, atmosphere, legendText,
-            teamA: { name: nameA, task: taskTextA, taskKey: taskKeyA },
-            teamB: { name: nameB, task: taskTextB, taskKey: taskKeyB },
-            rule
-          };
-          break;
-        }
-        attempts++;
-      }
-
-      // Если не смогли избежать повтора (крайне редко) — берем последний сгенерированный
-      if (!newScenario) {
-        const location = getRandomElement(locations);
-        const atmosphere = getRandomElement(atmospheres);
-        const legendText = getRandomElement(legendsPool);
-        const nameA = getRandomElement(sideNamesA);
-        let nameB = getRandomElement(sideNamesB);
-        while (nameB === nameA) nameB = getRandomElement(sideNamesB);
-        const [taskKeyA, taskKeyB] = selectDistinctTasks(activeKeys.length ? activeKeys : ['capture','elimination']);
-        const taskTextA = getRandomTaskByKey(taskKeyA);
-        const taskTextB = getRandomTaskByKey(taskKeyB);
-        newScenario = {
-          location, atmosphere, legendText,
-          teamA: { name: nameA, task: taskTextA, taskKey: taskKeyA },
-          teamB: { name: nameB, task: taskTextB, taskKey: taskKeyB },
-          rule: currentRule
-        };
-        signature = buildSignature(newScenario.teamA, newScenario.teamB, currentRule, location, legendText);
-      }
-
-      lastScenarioSignature = signature;
-      renderScenario(newScenario);
-    }
-
-    // Правила ранений текстом
-    function getRuleDescription(rule) {
-      if (rule === 'hardcore') {
-        return '☠️ Любое попадание (в любую часть тела, снаряжение) — мгновенно УБИТ. Без перевязок.';
-      } else {
-        return '🩸 Попадание в голову / туловище — УБИТ. Попадание в руку/ногу — РАНЕН (необходимо перевязаться в течение 2 минут, иначе убит). Повторное ранение в конечность = убит.';
-      }
-    }
-
-    function renderScenario(sc) {
-      const ruleDesc = getRuleDescription(sc.rule);
-      const ruleShort = sc.rule === 'hardcore' ? 'ХАРДКОР' : 'РЕАЛИЗМ';
-
-      const html = `
-        <div class="legend-box">
-          <div class="legend-title">📖 ЛЕГЕНДА</div>
-          <div style="font-size:1.05rem; line-height:1.5;">${sc.legendText}</div>
-          <div style="margin-top:0.8rem; display:flex; flex-wrap:wrap; gap:1rem; color:#c7bc82;">
-            <span>📍 ${sc.location}</span>
-            <span>🌦️ ${sc.atmosphere}</span>
-          </div>
-        </div>
-
-        <div class="teams-container">
-          <div class="team-block team-alpha">
-            <div class="team-name"><span>🔴 ${sc.teamA.name}</span></div>
-            <div style="font-weight:700; color:#deb887;">БОЕВАЯ ЗАДАЧА:</div>
-            <div class="objective-text">🎯 ${sc.teamA.task}</div>
-          </div>
-          <div class="team-block team-bravo">
-            <div class="team-name"><span>🔵 ${sc.teamB.name}</span></div>
-            <div style="font-weight:700; color:#a5c98a;">БОЕВАЯ ЗАДАЧА:</div>
-            <div class="objective-text">🎯 ${sc.teamB.task}</div>
-          </div>
-        </div>
-
-        <div class="rules-highlight">
-          <span style="font-size:1.4rem;">⚡</span> 
-          <span><strong>ПРАВИЛА РАНЕНИЙ (${ruleShort}):</strong> ${ruleDesc}</span>
-        </div>
-        <div class="unique-id">ID: ${sc.location.substring(0,4)}-${sc.teamA.name.substring(0,3)}-${Date.now().toString().slice(-4)}</div>
-      `;
-
-      scenarioDisplay.innerHTML = html;
-    }
-
-    // Обработчики переключения правил
-    ruleButtons.forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        ruleButtons.forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        const rule = this.dataset.rule;
-        if (rule === 'hardcore' || rule === 'realistic') {
-          currentRule = rule;
-        }
-        // Автоматически не генерируем, ждём нажатия кнопки (можно и сразу, но пусть пользователь контролирует)
+      startBtn.addEventListener('click', () => {
+        splashScreen.classList.add('hidden');
+        mainApp.style.display = 'flex';
+        // Генерируем первый сценарий после открытия
+        generateScenario();
       });
-    });
 
-    // Генерация по кнопке
-    generateBtn.addEventListener('click', generateScenario);
+      // ---------- БАЗЫ ДАННЫХ (РАСШИРЕННЫЕ) ----------
+      const locations = [
+        "Заброшенный завод «Сталь-9»", "Лесной полигон «Туман»", "Горный перевал «Орлиное гнездо»",
+        "Поселок «Северный» (руины)", "Бункер 42-бис", "Нефтебаза «Черное золото»",
+        "Ж/д станция «Узловая»", "Портовая зона «Док-7»", "Пустынный форт «Мирамар»",
+        "Подземный тоннель «Крот»", "Затопленный ангар", "Химический завод «Вихрь»",
+        "Лесопилка «Глухомань»", "Складской комплекс «Терминал»", "Радиовышка «Эхо»",
+        "Монастырь «Святой Луч»", "Брошенный госпиталь", "Карьер «Гранит»"
+      ];
 
-    // Инициализация: генерируем первый сценарий сразу
-    window.addEventListener('DOMContentLoaded', () => {
-      // убедимся, что currentRule соответствует активной кнопке
-      const activeRuleBtn = document.querySelector('.rule-btn.active');
-      if (activeRuleBtn && activeRuleBtn.dataset.rule) {
-        currentRule = activeRuleBtn.dataset.rule;
+      const atmospheres = [
+        "густой туман, видимость 20 метров", "проливной дождь и скользкая грязь",
+        "ранние сумерки, длинные тени", "пасмурное небо, ветер 10 м/с",
+        "солнечный полдень, жара +32°C", "ночная операция, только ПНВ",
+        "дым от лесного пожара поблизости", "снежные заносы, -5°C", "туман и запах гари",
+        "сильная гроза, вспышки молний", "полнолуние, холодный ветер"
+      ];
+
+      const sideNamesA = ["Альфа", "Волкодавы", "Группа «Шторм»", "Отряд «Корсар»", "Сектор 7", "Ястребы", "Кобра"];
+      const sideNamesB = ["Браво", "Теневики", "Картель «Черный»", "Ополчение «Восток»", "Наёмники «Гадюка»", "Фантом", "Коготь"];
+
+      // РАСШИРЕННЫЕ ЛЕГЕНДЫ (больше деталей)
+      const legendsPool = [
+        "Местные жители передали тревожные разведданные: в заброшенном районе замечены вооружённые диверсанты, предположительно устанавливающие взрывные устройства. Командование приказало немедленно выдвинуться и предотвратить катастрофу. Связь нестабильна, действовать придётся автономно.",
+        "После крушения беспилотника с секретным модулем связи обе стороны стремятся первыми добраться до обломков. Модуль содержит криптографические ключи, способные переломить ход конфликта. Местность патрулируется малыми группами.",
+        "Гуманитарный конвой ООН был атакован неизвестными. Груз (медикаменты и вода) разбросан по дороге. Необходимо установить контроль над зоной, найти выживших и не допустить мародёрства. В районе могут находиться враждебные элементы.",
+        "Лесные пожары подступают к старой радиовышке. Одна сторона планирует использовать её для передачи дезинформации, другая — взорвать, чтобы лишить врага ретранслятора. Огонь ограничивает манёвр.",
+        "Двойной агент сообщил о готовящемся покушении на высокопоставленного офицера во время инспекции передовой. Офицер следует в сопровождении минимальной охраны. Время и место известны лишь приблизительно.",
+        "Запасы питьевой воды истощены. Единственный функционирующий источник — колодец в нейтральной деревне. Контроль над ним означает выживание всего подразделения. Местные старейшины требуют защиты.",
+        "В подземном бункере активирован аварийный протокол: система самоуничтожения запущена из-за утечки химикатов. Одна группа хочет остановить реактор, другая — взорвать бункер вместе с вражеским арсеналом внутри.",
+        "Радиоперехват засёк вражеского генерала, инспектирующего секретный склад. Уничтожение или захват генерала может деморализовать противника. Склад хорошо охраняется, есть системы сигнализации.",
+        "Древний артефакт (контейнер с биометрическими данными) обнаружен в подвалах монастыря. Обе стороны стремятся завладеть им для дальнейших переговоров. Монастырь частично разрушен, много узких проходов.",
+        "Колонна техники с боеприпасами застряла в грязи после ливня. Противник знает о её местонахождении. Необходимо либо эвакуировать груз, либо уничтожить его, чтобы не достался врагу. Время играет против всех.",
+        "Вертолёт эвакуации совершил вынужденную посадку в зоне боевых действий. Пилот ранен, но жив. Одна сторона пытается спасти экипаж, другая — захватить пилота для допроса. Зона высадки простреливается.",
+        "Система ПВО старого образца неожиданно активировалась и угрожает любым воздушным целям. Отключение или захват установки изменит баланс сил в регионе. Установка находится на крыше депо."
+      ];
+
+      // БОЕВЫЕ ЗАДАЧИ — расширенные и разнообразные
+      const taskTypes = {
+        capture: [
+          "Захватить и удерживать контрольную точку «Альфа» не менее 7 минут, отражая атаки.",
+          "Занять здание администрации и забаррикадироваться. Продержаться до прибытия подкрепления.",
+          "Контролировать стратегический мост. Не допустить минирования и переправы противника.",
+          "Овладеть высотой 217, установить флаг и подать сигнал ракетницей.",
+          "Захватить водонапорную башню и удерживать позицию, имея ограниченный боезапас."
+        ],
+        elimination: [
+          "Ликвидировать командира вражеского отряда (игрок с красной повязкой на плече).",
+          "Уничтожить всех бойцов противника в обозначенном квадрате B3 за 15 минут.",
+          "Нейтрализовать вражеского снайпера, засевшего в лесополосе у оврага.",
+          "Провести зачистку трёх зданий от диверсионной группы противника.",
+          "Убрать пулемётный расчёт на втором этаже ангара."
+        ],
+        intel: [
+          "Найти и изъять запечатанный кейс с документами (спрятан в одном из пяти тайников).",
+          "Сфотографировать три замаскированных контейнера и вернуться на базу без потерь.",
+          "Перехватить вражеского курьера (игрок с жёлтым рюкзаком) и забрать флеш-накопитель.",
+          "Взломать терминал в подвале бункера (удерживать точку 3 минуты) и скачать данные.",
+          "Обследовать заброшенный госпиталь и найти карту минных полей."
+        ],
+        escort: [
+          "Провести VIP-персону (игрок в синем жилете) из точки А в точку Б через опасный сектор.",
+          "Защитить передвижной генератор помех в течение 10 минут, пока он активен.",
+          "Эвакуировать раненого пилота (манекен на носилках) к зоне эвакуации, избегая засад.",
+          "Сопроводить грузовик с боеприпасами через лесную дорогу, где возможны атаки.",
+          "Обеспечить безопасность сапёра, обезвреживающего взрывное устройство на мосту."
+        ],
+        demolition: [
+          "Заложить взрывчатку (имитация) на вражеском складе ГСМ и отойти на безопасное расстояние.",
+          "Уничтожить спутниковую тарелку связи, используя подрывные заряды.",
+          "Заминировать участок дороги и организовать засаду на ожидаемый конвой.",
+          "Вывести из строя трансформаторную подстанцию, питающую бункер противника.",
+          "Подорвать опору ЛЭП, чтобы обесточить вражеский командный пункт."
+        ]
+      };
+
+      let currentRule = 'hardcore';
+      let lastScenarioSignature = null;
+
+      const ruleButtons = document.querySelectorAll('.rule-btn');
+      const generateBtn = document.getElementById('generateBtn');
+      const scenarioDisplay = document.getElementById('scenarioDisplay');
+      const checkCapture = document.getElementById('taskCapture');
+      const checkElimination = document.getElementById('taskElimination');
+      const checkIntel = document.getElementById('taskIntel');
+      const checkEscort = document.getElementById('taskEscort');
+      const checkDemolition = document.getElementById('taskDemolition');
+
+      function getRandomElement(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+      function shuffleArray(arr) { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
+
+      function getActiveTaskKeys() {
+        const active = [];
+        if (checkCapture.checked) active.push('capture');
+        if (checkElimination.checked) active.push('elimination');
+        if (checkIntel.checked) active.push('intel');
+        if (checkEscort.checked) active.push('escort');
+        if (checkDemolition.checked) active.push('demolition');
+        return active;
       }
-      generateScenario();
-    });
 
-    // Дополнительно: если меняют чекбоксы, можно не сбрасывать, просто следующий сценарий учтёт
-  })();
-</script>
+      function buildSignature(teamAObj, teamBObj, rule, location, legend) {
+        return `${location}|${legend}|${teamAObj.task}|${teamBObj.task}|${rule}`;
+      }
+
+      function getRandomTaskByKey(taskKey) {
+        const pool = taskTypes[taskKey];
+        return pool ? getRandomElement(pool) : "Нейтрализовать противника.";
+      }
+
+      function selectDistinctTasks(activeKeys) {
+        if (activeKeys.length === 0) return ['capture', 'elimination'];
+        if (activeKeys.length === 1) return [activeKeys[0], activeKeys[0]];
+        const shuffled = shuffleArray([...activeKeys]);
+        return [shuffled[0], shuffled[1]];
+      }
+
+      function generateScenario() {
+        const activeKeys = getActiveTaskKeys();
+        if (activeKeys.length === 0) {
+          scenarioDisplay.innerHTML = `<div style="color:#c78d5c; padding:1rem; text-align:center;">⚠️ Выберите хотя бы один тип боевой задачи</div>`;
+          return;
+        }
+
+        let attempts = 0;
+        const maxAttempts = 25;
+        let newScenario = null;
+        let signature = null;
+
+        while (attempts < maxAttempts) {
+          const location = getRandomElement(locations);
+          const atmosphere = getRandomElement(atmospheres);
+          const legendText = getRandomElement(legendsPool);
+          const nameA = getRandomElement(sideNamesA);
+          let nameB = getRandomElement(sideNamesB);
+          while (nameB === nameA) nameB = getRandomElement(sideNamesB);
+
+          const [taskKeyA, taskKeyB] = selectDistinctTasks(activeKeys);
+          let taskTextA = getRandomTaskByKey(taskKeyA);
+          let taskTextB = getRandomTaskByKey(taskKeyB);
+
+          if (taskKeyA === taskKeyB) {
+            const pool = taskTypes[taskKeyA];
+            if (pool && pool.length > 1) {
+              let alt = getRandomElement(pool);
+              let inner = 0;
+              while (alt === taskTextA && inner < 12) { alt = getRandomElement(pool); inner++; }
+              taskTextB = alt;
+            }
+          }
+
+          signature = buildSignature({ task: taskTextA }, { task: taskTextB }, currentRule, location, legendText);
+          if (signature !== lastScenarioSignature) {
+            newScenario = { location, atmosphere, legendText, teamA: { name: nameA, task: taskTextA }, teamB: { name: nameB, task: taskTextB }, rule: currentRule };
+            break;
+          }
+          attempts++;
+        }
+
+        if (!newScenario) {
+          const location = getRandomElement(locations);
+          const atmosphere = getRandomElement(atmospheres);
+          const legendText = getRandomElement(legendsPool);
+          const nameA = getRandomElement(sideNamesA);
+          let nameB = getRandomElement(sideNamesB);
+          while (nameB === nameA) nameB = getRandomElement(sideNamesB);
+          const [tkA, tkB] = selectDistinctTasks(activeKeys.length ? activeKeys : ['capture','elimination']);
+          newScenario = { location, atmosphere, legendText, teamA: { name: nameA, task: getRandomTaskByKey(tkA) }, teamB: { name: nameB, task: getRandomTaskByKey(tkB) }, rule: currentRule };
+          signature = buildSignature(newScenario.teamA, newScenario.teamB, currentRule, location, legendText);
+        }
+
+        lastScenarioSignature = signature;
+        renderScenario(newScenario);
+      }
+
+      function getRuleDescription(rule) {
+        return rule === 'hardcore' 
+          ? '☠️ Любое попадание (в любую часть тела, снаряжение) — мгновенно УБИТ. Без перевязок.'
+          : '🩸 Попадание в голову / туловище — УБИТ. Попадание в руку/ногу — РАНЕН (необходимо перевязаться в течение 2 минут, иначе убит). Повторное ранение в конечность = убит.';
+      }
+
+      function renderScenario(sc) {
+        const ruleDesc = getRuleDescription(sc.rule);
+        const ruleShort = sc.rule === 'hardcore' ? 'ХАРДКОР' : 'РЕАЛИЗМ';
+        const html = `
+          <div class="legend-box">
+            <div class="legend-title">📖 ЛЕГЕНДА МИССИИ</div>
+            <div style="font-size:1.05rem; line-height:1.6;">${sc.legendText}</div>
+            <div style="margin-top:1rem; display:flex; flex-wrap:wrap; gap:1.2rem; color:#cfba6b; font-weight:500;">
+              <span>📍 ${sc.location}</span>
+              <span>🌦️ ${sc.atmosphere}</span>
+            </div>
+          </div>
+          <div class="teams-container">
+            <div class="team-block team-alpha">
+              <div class="team-name"><span>🔴 ${sc.teamA.name}</span></div>
+              <div style="font-weight:700; color:#e7b550;">БОЕВАЯ ЗАДАЧА:</div>
+              <div class="objective-text">🎯 ${sc.teamA.task}</div>
+            </div>
+            <div class="team-block team-bravo">
+              <div class="team-name"><span>🔵 ${sc.teamB.name}</span></div>
+              <div style="font-weight:700; color:#b3d180;">БОЕВАЯ ЗАДАЧА:</div>
+              <div class="objective-text">🎯 ${sc.teamB.task}</div>
+            </div>
+          </div>
+          <div class="rules-highlight">
+            <span style="font-size:1.6rem;">⚡</span> 
+            <span><strong>ПРАВИЛА (${ruleShort}):</strong> ${ruleDesc}</span>
+          </div>
+          <div class="unique-id">🦂 SCORPGEN · ${sc.location.substring(0,5)}-${Date.now().toString().slice(-4)}</div>
+        `;
+        scenarioDisplay.innerHTML = html;
+      }
+
+      ruleButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          ruleButtons.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          if (this.dataset.rule) currentRule = this.dataset.rule;
+        });
+      });
+
+      generateBtn.addEventListener('click', generateScenario);
+
+      // Инициализация после заставки происходит по кнопке НАЧАТЬ
+    })();
+  </script>
 </body>
 </html>
